@@ -1,0 +1,14 @@
+//NOTES - https://itnext.io/how-to-avoid-a-billing-shock-with-azure-serverless-solutions-60029f121456
+
+resourceGroup="AzureDurableDemo14397-CHANGEME"
+subscriptionId="03766965-6d6-CHANGEME"	
+actionGroupId="/subscriptions/03766965-6d6-CHANGEME/resourceGroups/default-activitylogalerts/providers/microsoft.insights/actionGroups/Admins"
+scope='/subscriptions/03766965-6d6-CHANGEME/resourceGroups/AzureDurableDemo14397-CHANGEME/providers/Microsoft.Web/sites/azuredurabledemo14397-CHANGEME'
+desc='Spike detection 10 GBsec or 5000 requests over period of 6 hours'
+name="ConsumptionCostAlert"
+funcExecUnits="total FunctionExecutionUnits > 10000000"
+funcExecCount="total FunctionExecutionCount > 5000"
+	
+az monitor metrics alert create -n $name -g $resourceGroup --scopes $scope --description "Spike detection 10 GBsec or 5000 requests" \
+--condition $funcExecUnits --condition $funcExecCount --window-size 6h --evaluation-frequency 15m --severity 3 \
+--action $actionGroupId 
